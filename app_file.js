@@ -1,6 +1,10 @@
 var express = require("express");
 var app = express();
+var router = express.Router();
 
+router.get("/create", function (req, res) {
+  var html = template.html(``);
+});
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -17,6 +21,7 @@ app.get(["/topic", "/topic/:id"], function (req, res) {
   fs.readdir("data", function (err, files) {
     if (err) {
       console.log(err);
+
       res.status(500).send("Internal Server Error");
     }
     var id = req.params.id;
