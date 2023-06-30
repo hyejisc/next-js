@@ -20,16 +20,35 @@ app.get("/count", function (req, res) {
   res.send("count : " + req.session.count);
 });
 
+app.get("/auth/logout", function (req, res) {});
+
+app.get("/welcome", function (req, res) {
+  if (req.session.displayName) {
+    res.send(`
+      <h1>Hello, ${req.session.displayName}</h1>
+      <a href="/auth/logout">Logout</a>
+    `);
+  } else {
+    res.send(`
+      <h1>Welcome</h1>
+      <a href="/auth/login">Login</a>
+    `);
+  }
+  res.send(req.session);
+});
+
 app.post("/auth/login", function (req, res) {
   var user = {
     username: "hyeji",
     password: "1111",
+    displayName: "혜지",
   };
 
   var uname = req.body.username;
   var pwd = req.body.password;
 
   if (uname === user.username && pwd === user.password) {
+    req.session.displayName = user.displayName;
     res.redirect("/welcome");
   } else {
     res.send("Who are you? <a href='/auth/login'>login</a>");
